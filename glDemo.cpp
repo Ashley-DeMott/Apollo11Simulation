@@ -53,13 +53,13 @@ void callBack(const Interface *pUI, void * p)
 
    // move the ship around
    if (pUI->isRight())
-      pDemo->angle -= 0.1;
+       pDemo->ptLM.addX(1.0);
    if (pUI->isLeft())
-      pDemo->angle += 0.1;
+       pDemo->ptLM.addX(-1.0);
    if (pUI->isUp())
-      pDemo->ptLM.addY(-1.0);
-   if (pUI->isDown())
       pDemo->ptLM.addY(1.0);
+   if (pUI->isDown())
+      pDemo->ptLM.addY(-1.0);
 
    // draw the ground
    pDemo->ground.draw(gout);
