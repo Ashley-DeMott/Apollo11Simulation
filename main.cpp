@@ -55,6 +55,8 @@ void callBack(const Interface *pUI, void * p)
    // put some text on the screen
    gout.setPosition(Point(1.0, 3.0));
    gout << "Position (" << (int)sim->getLMPos()->getX() << ", " << (int)sim->getLMPos()->getY() << ")" << "\n";
+
+
 }
 
 /*********************************

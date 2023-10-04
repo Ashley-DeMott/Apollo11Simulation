@@ -15,13 +15,16 @@ using namespace std;
 class Simulation
 {
 public:
-   Simulation(const Point& ptUpperRight) :
-      ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)), star(Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0)) {
+   Simulation(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)), star(Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0)) {
       // Point((ptUpperRight.getX() - (ptUpperRight.getX() / 2.0)), ptUpperRight.getY() - (ptUpperRight.getY() / 4.0)) // Middle upper
       // Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0) // 20 down from the right hand corner (on the right edge)
    }
 
    // **Add all public methods
+
+   Point* getUpperRight() {
+      return &ptUpperRight;
+   }
 
    void moveLM(double x, double y) {
       this->lm.addPos(x, y);
@@ -44,8 +47,7 @@ public:
    }
 
 private:
-   Point ptUpperRight;   // size of the screen
-
+   Point ptUpperRight;   // The upper right corner of the screen
 
    Lander lm;
    Star star; // Only have one Star for now, will contain all within a list/vector/array/etc
