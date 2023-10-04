@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="glDemo.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ground.cpp" />
     <ClCompile Include="Lander.h" />
     <ClCompile Include="point.cpp" />

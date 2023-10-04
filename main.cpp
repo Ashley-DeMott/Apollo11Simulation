@@ -29,7 +29,9 @@ void callBack(const Interface *pUI, void * p)
    // is the first step of every single callback function in OpenGL. 
    Simulation* sim = (Simulation *)p;
 
-   // move the ship around
+   // move the ship around (up, down, left, right)
+   // Next week: left and right will change the LM's angle
+   //             and if(pUI->isDown()) will call addThrust()
    if (pUI->isRight())
       sim->moveLM(1.0, 0.0);
    if (pUI->isLeft())
@@ -38,6 +40,9 @@ void callBack(const Interface *pUI, void * p)
       sim->moveLM(0.0, 1.0);
    if (pUI->isDown())
       sim->moveLM(0.0, -1.0);
+
+   // draw our little star (behind the ground)
+   gout.drawStar(*(sim->getStar()->getPos()), sim->getStar()->getPhase());
 
    // draw the ground
    sim->drawGround(gout);
@@ -50,10 +55,6 @@ void callBack(const Interface *pUI, void * p)
    // put some text on the screen
    gout.setPosition(Point(1.0, 3.0));
    gout << "Position (" << (int)sim->getLMPos()->getX() << ", " << (int)sim->getLMPos()->getY() << ")" << "\n";
-
-   // draw our little star
-   gout.drawStar(*(sim->getStar()->getPos()), sim->getStar()->getPhase());
-   // start-tick - clock() <-- # ticks per call
 }
 
 /*********************************
