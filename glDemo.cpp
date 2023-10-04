@@ -4,11 +4,7 @@
  * draw something on the window, and accept simple user input
  **********************************************************************/
 
-#include "point.h"
-#include "uiInteract.h"
-#include "uiDraw.h"
-#include "ground.h"
-using namespace std;
+#include "Simulator.h""
 
 /*************************************
  * All the interesting work happens here, when
@@ -23,32 +19,32 @@ void callBack(const Interface *pUI, void * p)
 
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
-   Simulation* pDemo = (Simulation *)p;
+   Simulation* sim = (Simulation *)p;
 
    // move the ship around
    if (pUI->isRight())
-       pDemo->ptLM.addX(1.0);
+      sim->moveLM(1.0, 0.0);
    if (pUI->isLeft())
-       pDemo->ptLM.addX(-1.0);
+      sim->moveLM(-1.0, 0.0);
    if (pUI->isUp())
-      pDemo->ptLM.addY(1.0);
+      sim->moveLM(0.0, 1.0);
    if (pUI->isDown())
-      pDemo->ptLM.addY(-1.0);
+      sim->moveLM(0.0, -1.0);
 
    // draw the ground
-   pDemo->ground.draw(gout);
+   sim->ground.draw(gout);
 
    // draw the lander and its flames
-   gout.drawLander(pDemo->ptLM /*position*/, pDemo->angle /*angle*/);
-   gout.drawLanderFlames(pDemo->ptLM, pDemo->angle, /*angle*/
+   gout.drawLander(*(sim->getLMPos()) /*position*/, sim->angle /*angle*/);
+   gout.drawLanderFlames(*(sim->getLMPos()), sim->angle, /*angle*/
                     pUI->isDown(), pUI->isLeft(), pUI->isRight());
 
    // put some text on the screen
    gout.setPosition(Point(1.0, 3.0));
-   gout << "Position (" << (int)pDemo->ptLM.getX() << ", " << (int)pDemo->ptLM.getY() << ")" << "\n";
+   gout << "Position (" << (int)sim->getLMPos()->getX() << ", " << (int)sim->getLMPos()->getY() << ")" << "\n";
 
    // draw our little star
-   gout.drawStar(pDemo->ptStar, pDemo->phase++);
+   gout.drawStar(sim->ptStar, sim->phase++);
    // start-tick - clock() <-- # ticks per call
 }
 

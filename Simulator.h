@@ -26,6 +26,13 @@ public:
    }
 
    // **Add all public methods
+   void moveLM(double x, double y) {
+      this->lm.addPos(x, y);
+   }
+
+   Point* getLMPos() {
+      return lm.getPos();
+   }
 
 private:
    Point ptUpperRight;   // size of the screen
