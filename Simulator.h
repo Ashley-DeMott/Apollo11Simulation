@@ -4,23 +4,23 @@
 #include "Star.h"
 #include "Lander.h"
 
-using namespace std;
-/* TODO: Add descriptions/comments for each method */
+// List for Stars
+#include <list>
 
+using namespace std;
+
+const int NUM_STARS = 50;  // The number of Stars to create
 
 /*************************************************************************
- * Simulation
- * ** Add description, holds all data
+ * Simulator
+ * 
  *************************************************************************/
-class Simulation
+class Simulator
 {
 public:
-   Simulation(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)), star(Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0)) {
-      // Point((ptUpperRight.getX() - (ptUpperRight.getX() / 2.0)), ptUpperRight.getY() - (ptUpperRight.getY() / 4.0)) // Middle upper
-      // Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0) // 20 down from the right hand corner (on the right edge)
+   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)) {
+      createStars();
    }
-
-   // **Add all public methods
 
    Point* getUpperRight() {
       return &ptUpperRight;
@@ -34,12 +34,24 @@ public:
       return lm.getPos();
    }
 
+   double getLMVel() {
+      return lm.getVel();
+   }
+
    double getLMAngle() {
       return lm.getAngle();
    }
 
-   Star* getStar() {
-      return &star;
+   int getLMFuel() {
+      return lm.getFuel();
+   }
+
+   double getLMAltitude() {
+      return ground.getElevation(*(lm.getPos()));
+   }
+
+   list<Star*>* getStars() {
+      return &stars;
    }
 
    const void drawGround(ogstream &out) {
@@ -47,14 +59,19 @@ public:
    }
 
 private:
-   Point ptUpperRight;   // The upper right corner of the screen
+   Point ptUpperRight;     // The upper right corner of the screen
+   Lander lm;              // The Lunar Module
+   list<Star*> stars;      // A list for all the Star pointers
+   Ground ground;          // The ground
 
-   Lander lm;
-   Star star; // Only have one Star for now, will contain all within a list/vector/array/etc
-   //list<Star*> stars;
-
-
-   Ground ground;   
-
-   // **Add all private methods
+   void createStars() {
+      // For every star, generate a random X and Y position
+      for (int i = 0; i < NUM_STARS; i++) {
+         double posX = random(0.0, ptUpperRight.getX());
+         double posY = random(0.0, ptUpperRight.getY());
+         
+         stars.push_back(new Star(Point(posX, posY)));
+      }
+      assert(stars.size() == NUM_STARS); // Make sure it generates all 50 stars
+   }
 };

@@ -7,8 +7,9 @@
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
  *      -a paragraph or two about how the assignment went for you-
+ *       
  * 5. How long did it take for you to complete the assignment?
- *      so far 2ish hrs
+ *     4 hrs
  *****************************************************************/
 #include "Simulator.h"
 #include "uiInteract.h"
@@ -27,7 +28,7 @@ void callBack(const Interface *pUI, void * p)
 
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
-   Simulation* sim = (Simulation *)p;
+   Simulator* sim = (Simulator *)p;
 
    // move the ship around (up, down, left, right)
    // Next week: left and right will change the LM's angle
@@ -41,22 +42,30 @@ void callBack(const Interface *pUI, void * p)
    if (pUI->isDown())
       sim->moveLM(0.0, -1.0);
 
-   // draw our little star (behind the ground)
-   gout.drawStar(*(sim->getStar()->getPos()), sim->getStar()->getPhase());
-
+   // draw our little stars (behind the ground)
+   for (Star* s : *(sim->getStars())) {
+      gout.drawStar(*(s->getPos()), s->getPhase());
+   }
+   
    // draw the ground
    sim->drawGround(gout);
 
    // draw the lander and its flames
    gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle() /*angle*/);
    gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle(), /*angle*/
-                    pUI->isDown(), pUI->isLeft(), pUI->isRight());
+                    pUI->isUp(), pUI->isLeft(), pUI->isRight());
 
-   // put some text on the screen
-   gout.setPosition(Point(1.0, 3.0));
-   gout << "Position (" << (int)sim->getLMPos()->getX() << ", " << (int)sim->getLMPos()->getY() << ")" << "\n";
+   // Printing near the top left of the screen,   
+   gout.setPosition(Point(10.0, sim->getUpperRight()->getY() - 20.0));
 
-
+   // Show the Lunar Modules Fuel level
+   gout << "Fuel: " << sim->getLMFuel() << "\n";
+   
+   // Only show the Altitude and Speed with 2 decimal points
+   gout.setf(ios::fixed | ios::showpoint);
+   gout.precision(2);
+   gout << "Altitude: " << sim->getLMAltitude() << " meters" << "\n";
+   gout << "Speed: " << sim->getLMVel() << "m/s" << "\n";
 }
 
 /*********************************
@@ -82,10 +91,10 @@ int main(int argc, char ** argv)
                  ptUpperRight);
 
    // Initialize the game class
-   Simulation demo(ptUpperRight);
+   Simulator sim(ptUpperRight);
 
    // set everything into action
-   ui.run(callBack, &demo);
+   ui.run(callBack, &sim);
 
    return 0;
 }
