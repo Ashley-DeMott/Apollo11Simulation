@@ -1,10 +1,18 @@
-/**********************************************************************
- * GL Demo
- * Just a simple program to demonstrate how to create an Open GL window, 
- * draw something on the window, and accept simple user input
- **********************************************************************/
-
-#include "Simulator.h""
+/*************************************************************
+ * 1. Name:
+ *      Ashley DeMott and Jason Geppelt
+ * 2. Assignment Name:
+ *      Lab 04: Apollo 11 Visuals
+ * 3. Assignment Description:
+ *      Simulate the Apollo 11 landing
+ * 4. What was the hardest part? Be as specific as possible.
+ *      -a paragraph or two about how the assignment went for you-
+ * 5. How long did it take for you to complete the assignment?
+ *      so far 2ish hrs
+ *****************************************************************/
+#include "Simulator.h"
+#include "uiInteract.h"
+#include "uiDraw.h"
 
 /*************************************
  * All the interesting work happens here, when

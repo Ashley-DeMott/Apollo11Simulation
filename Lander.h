@@ -4,7 +4,7 @@
 // **Add description, attributes, methods
 class Lander {
 public:
-   Lander() : pos(0, 0) {
+   Lander() : pos(0.0, 0.0) {
    }
    
    Point* getPos() {
@@ -16,12 +16,7 @@ public:
       this->pos.addY(y);
    }
 
-   void setPos(double x, double y) {
-      this->pos.setX(x);
-      this->pos.setY(y);
-   }
-
 private:
-   Point pos;
+   Point pos; // The position of the Lander
 
 };
