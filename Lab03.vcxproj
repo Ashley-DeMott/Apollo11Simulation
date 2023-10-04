@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Angle.cpp" />
     <ClCompile Include="glDemo.cpp" />
     <ClCompile Include="ground.cpp" />
