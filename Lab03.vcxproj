@@ -21,8 +21,11 @@
   <ItemGroup>
     <ClCompile Include="glDemo.cpp" />
     <ClCompile Include="ground.cpp" />
+    <ClCompile Include="Lander.cpp" />
     <ClCompile Include="Lander.h" />
     <ClCompile Include="point.cpp" />
+    <ClCompile Include="Simulator.cpp" />
+    <ClCompile Include="Star.cpp" />
     <ClCompile Include="uiDraw.cpp" />
     <ClCompile Include="uiInteract.cpp" />
   </ItemGroup>
