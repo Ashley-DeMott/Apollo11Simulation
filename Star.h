@@ -4,7 +4,7 @@
 // **Add description, attributes, methods
 class Star {
 public:
-   Star() : pos(0.0, 0.0) {
+   Star(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), phase(250) {
 
    }
 
@@ -12,6 +12,15 @@ public:
       return &pos;
    }
 
+   int getPhase() {
+      return phase;
+   }
+
+   void updatePhase() {
+   
+   }
+
 private:
    Point pos;
+   int phase;
 };

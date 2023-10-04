@@ -40,11 +40,11 @@ void callBack(const Interface *pUI, void * p)
       sim->moveLM(0.0, -1.0);
 
    // draw the ground
-   sim->ground.draw(gout);
+   sim->drawGround(gout);
 
    // draw the lander and its flames
-   gout.drawLander(*(sim->getLMPos()) /*position*/, sim->angle /*angle*/);
-   gout.drawLanderFlames(*(sim->getLMPos()), sim->angle, /*angle*/
+   gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle() /*angle*/);
+   gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle(), /*angle*/
                     pUI->isDown(), pUI->isLeft(), pUI->isRight());
 
    // put some text on the screen
@@ -52,7 +52,7 @@ void callBack(const Interface *pUI, void * p)
    gout << "Position (" << (int)sim->getLMPos()->getX() << ", " << (int)sim->getLMPos()->getY() << ")" << "\n";
 
    // draw our little star
-   gout.drawStar(sim->ptStar, sim->phase++);
+   gout.drawStar(*(sim->getStar()->getPos()), sim->getStar()->getPhase());
    // start-tick - clock() <-- # ticks per call
 }
 

@@ -19,8 +19,8 @@ public:
       ground(ptUpperRight)
    {
       // Intial parameters are in comments for now
-      lm = Lander(); // angle(0.0), ptLM(ptUpperRight.getX() / 2.0, ptUpperRight.getY() / 2.0),
-      star = Star(); // ptStar(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0) //phase = random(0, 255);
+      lm = Lander(Point((ptUpperRight.getX()/2.0), ptUpperRight.getY()/ 2.0)); // angle(0.0), ptLM(ptUpperRight.getX() / 2.0, ptUpperRight.getY() / 2.0),
+      star = Star(Point((ptUpperRight.getX() - (ptUpperRight.getX()/2.0)), ptUpperRight.getY() - (ptUpperRight.getY()/4.0))); // ptStar(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0) //phase = random(0, 255);
    }
 
    // **Add all public methods
@@ -31,6 +31,18 @@ public:
 
    Point* getLMPos() {
       return lm.getPos();
+   }
+
+   double getLMAngle() {
+      return lm.getAngle();
+   }
+
+   Star* getStar() {
+      return &star;
+   }
+
+   const void drawGround(ogstream &out) {
+      ground.draw(out);
    }
 
 private:
