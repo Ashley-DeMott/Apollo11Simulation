@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Angle.cpp" />
     <ClCompile Include="glDemo.cpp" />
     <ClCompile Include="ground.cpp" />
     <ClCompile Include="Lander.cpp" />
@@ -30,6 +31,7 @@
     <ClCompile Include="uiInteract.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Angle.h" />
     <ClInclude Include="ground.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="Simulator.h" />
