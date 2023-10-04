@@ -14,16 +14,15 @@ using namespace std;
  * Demo
  * Test structure to capture the LM that will move around the screen
  *************************************************************************/
-class Demo
+class Simulation
 {
 public:
-   Demo(const Point& ptUpperRight) :
+   Simulation(const Point& ptUpperRight) :
           angle(0.0),
           ptStar(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0),
           ptLM(ptUpperRight.getX() / 2.0, ptUpperRight.getY() / 2.0),
           ground(ptUpperRight)
    { 
-
       phase = random(0, 255);
    }
 
@@ -49,7 +48,7 @@ void callBack(const Interface *pUI, void * p)
 
    // the first step is to cast the void pointer into a game object. This
    // is the first step of every single callback function in OpenGL. 
-   Demo * pDemo = (Demo *)p;  
+   Simulation* pDemo = (Simulation *)p;
 
    // move the ship around
    if (pUI->isRight())
@@ -70,11 +69,12 @@ void callBack(const Interface *pUI, void * p)
                     pUI->isDown(), pUI->isLeft(), pUI->isRight());
 
    // put some text on the screen
-   gout.setPosition(Point(30.0, 30.0));
-   gout << "Demo (" << (int)pDemo->ptLM.getX() << ", " << (int)pDemo->ptLM.getY() << ")" << "\n";
+   gout.setPosition(Point(1.0, 3.0));
+   gout << "Position (" << (int)pDemo->ptLM.getX() << ", " << (int)pDemo->ptLM.getY() << ")" << "\n";
 
    // draw our little star
    gout.drawStar(pDemo->ptStar, pDemo->phase++);
+   // start-tick - clock() <-- # ticks per call
 }
 
 /*********************************
@@ -96,14 +96,14 @@ int main(int argc, char ** argv)
    // Initialize OpenGL
    Point ptUpperRight(400.0, 400.0);
    Interface ui(0, NULL, 
-                "Open GL Demo", 
+                "Lunar Module - CSE230 Team 2", 
                  ptUpperRight);
 
    // Initialize the game class
-   Demo demo(ptUpperRight);
+   Simulation demo(ptUpperRight);
 
    // set everything into action
-   ui.run(callBack, &demo);             
+   ui.run(callBack, &demo);
 
    return 0;
 }
