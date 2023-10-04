@@ -6,8 +6,11 @@
  * 3. Assignment Description:
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
- *      
- *       
+ *      At first, the program was creating 50 new stars every time it
+ *      looped through the callback. It was neat, but definetly not what
+ *      we needed to do. Eventually we put all the stars in a list before 
+ *      the callback loop and then during the loop, updated each star's 
+ *      phase.       
  * 5. How long did it take for you to complete the assignment?
  *     4 hrs
  *****************************************************************/
@@ -70,7 +73,7 @@ void callBack(const Interface *pUI, void * p)
 
 /*********************************
  * Main is pretty sparse.  Just initialize
- * my Demo type and call the display engine.
+ * the simulator and call the display engine.
  * That is all!
  *********************************/
 #ifdef _WIN32_X
