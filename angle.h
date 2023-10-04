@@ -1,20 +1,3 @@
-/*************************************************************
- * 1. Name:
- *      Ashley DeMott and Jason Geppelt
- * 2. Assignment Name:
- *      Practice 04: Angle Class
- * 3. Assignment Description:
- *      A class to represent an angle
- * 4. What was the hardest part? Be as specific as possible.
- *      Learning the ins and outs of constructors was interesting. It was 
- *		difficult comprehending the syntax differences between constructors
- *		and functions. That, and also understanding the importance of
- *		referencing instead of copying the Angle class was not easy to grasp.
- * 5. How long did it take for you to complete the assignment?
- *      ~1 hr
- **************************************************************/
-
-
 #pragma once
 
 #define TWO_PI 6.28318530718
