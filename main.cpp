@@ -6,7 +6,7 @@
  * 3. Assignment Description:
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
- *      -a paragraph or two about how the assignment went for you-
+ *      
  *       
  * 5. How long did it take for you to complete the assignment?
  *     4 hrs
