@@ -4,8 +4,7 @@
 // **Add description, attributes, methods
 class Star {
 public:
-   Star(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), phase(250) {
-
+   Star(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), phase(random(0, 255)) {
    }
 
    Point* getPos() {

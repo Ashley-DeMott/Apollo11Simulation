@@ -15,12 +15,10 @@ using namespace std;
 class Simulation
 {
 public:
-   Simulation(const Point& ptUpperRight) :      
-      ground(ptUpperRight)
-   {
-      // Intial parameters are in comments for now
-      lm = Lander(Point((ptUpperRight.getX()/2.0), ptUpperRight.getY()/ 2.0)); // angle(0.0), ptLM(ptUpperRight.getX() / 2.0, ptUpperRight.getY() / 2.0),
-      star = Star(Point((ptUpperRight.getX() - (ptUpperRight.getX()/2.0)), ptUpperRight.getY() - (ptUpperRight.getY()/4.0))); // ptStar(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0) //phase = random(0, 255);
+   Simulation(const Point& ptUpperRight) :
+      ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)), star(Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0)) {
+      // Point((ptUpperRight.getX() - (ptUpperRight.getX() / 2.0)), ptUpperRight.getY() - (ptUpperRight.getY() / 4.0)) // Middle upper
+      // Point(ptUpperRight.getX() - 20.0, ptUpperRight.getY() - 20.0) // 20 down from the right hand corner (on the right edge)
    }
 
    // **Add all public methods
