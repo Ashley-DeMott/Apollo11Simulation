@@ -61,7 +61,7 @@ void callBack(const Interface *pUI, void * p)
    gout.precision(2);
    gout << "Altitude: " << sim->getLMAltitude() << " meters\n";
    gout << "Speed: " << sim->getLMVel() << "m/s\n";
-   gout << "Angle: " << sim->getLMAngle()->getDegrees() << " degrees\n";
+   //gout << "Angle: " << sim->getLMAngle()->getDegrees() << " degrees\n";
 }
 
 /*********************************
