@@ -7,12 +7,10 @@ const int MAX_PHASE = 255; // Maximum phase value for the star
  * STAR
  * The decorative star in space, keeping track of its position and phase.
  *********************************/
-
 class Star {
 public:
-    // Constructor to initialize a star with a default position and a random phase
-   Star(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), phase(random(0, MAX_PHASE)) {
-   }
+    // Constructor to initialize a Star with a given position and a random phase
+   Star(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), phase(random(0, MAX_PHASE)) {}
 
    // Get the position of the star
    Point* getPos() {
@@ -27,8 +25,7 @@ public:
 
    // Update the phase of the star
    void updatePhase() {
-      if (phase > 0 && phase < MAX_PHASE)
-      {
+      if (phase >= 0 && phase < MAX_PHASE) {
          phase++;
       }
       else {
@@ -37,6 +34,6 @@ public:
    }
 
 private:
-   Point pos; // The position of the star
+   Point pos;  // The position of the star
    int phase;  // The phase of the star, controlling its appearance
 };

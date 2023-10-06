@@ -12,10 +12,9 @@
  *      the callback loop and then during the loop, updated each star's 
  *      phase.       
  * 5. How long did it take for you to complete the assignment?
- *     4 hrs
+ *     5 hrs
  *****************************************************************/
 #include "Simulator.h"
-#include "uiInteract.h"
 #include "uiDraw.h"
 
 /*************************************
@@ -33,20 +32,13 @@ void callBack(const Interface *pUI, void * p)
    // is the first step of every single callback function in OpenGL. 
    Simulator* sim = (Simulator *)p;
 
-   // move the ship around (up, down, left, right)
-   // Next week: left and right will change the LM's angle
-   //             and if(pUI->isDown()) will call addThrust()
-   if (pUI->isRight())
-      sim->moveLM(1.0, 0.0);
-   if (pUI->isLeft())
-      sim->moveLM(-1.0, 0.0);
-   if (pUI->isUp())
-      sim->moveLM(0.0, 1.0);
-   if (pUI->isDown())
-      sim->moveLM(0.0, -1.0);
+   // Update the Lunar Lander
+   sim->updateLM(pUI);
 
    // draw our little stars (behind the ground)
    for (Star* s : *(sim->getStars())) {
+      // Extra: random stars
+      //gout.drawStar(Point( random(0.0, sim->getUpperRight()->getX()), random(0.0, sim->getUpperRight()->getY())), random(0, 255));
       gout.drawStar(*(s->getPos()), s->getPhase());
    }
    
@@ -54,8 +46,8 @@ void callBack(const Interface *pUI, void * p)
    sim->drawGround(gout);
 
    // draw the lander and its flames
-   gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle() /*angle*/);
-   gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle(), /*angle*/
+   gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle()->getRadians() /*angle*/);
+   gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle()->getRadians(), /*angle*/
                     pUI->isUp(), pUI->isLeft(), pUI->isRight());
 
    // Printing near the top left of the screen,   
@@ -67,8 +59,9 @@ void callBack(const Interface *pUI, void * p)
    // Only show the Altitude and Speed with 2 decimal points
    gout.setf(ios::fixed | ios::showpoint);
    gout.precision(2);
-   gout << "Altitude: " << sim->getLMAltitude() << " meters" << "\n";
-   gout << "Speed: " << sim->getLMVel() << "m/s" << "\n";
+   gout << "Altitude: " << sim->getLMAltitude() << " meters\n";
+   gout << "Speed: " << sim->getLMVel() << "m/s\n";
+   gout << "Angle: " << sim->getLMAngle()->getDegrees() << " degrees\n";
 }
 
 /*********************************

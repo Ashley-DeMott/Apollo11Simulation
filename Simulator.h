@@ -10,19 +10,19 @@
 using namespace std;
 
 const int NUM_STARS = 50;  // The number of Stars to create
+#define TIME_INTERVAL 0.1 // How often callBack is called, the speed of the Simulation
 
 /*************************************************************************
  * Simulator
  * Represents a simulation environment, including ground, stars, and a lunar module.
  *************************************************************************/
-
 class Simulator
 {
 public:
     // Constructor to initialize the different parts of the simulator with the upper 
     // right point and to create a list of stars.
    Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)) {
-      createStars();
+      createStars(); // Create all the Stars to be displayed
    }
 
    // Get the upper right point of the simulator
@@ -30,10 +30,9 @@ public:
       return &ptUpperRight;
    }
 
-
-   // Move the Lunar Module by the given x and y values
-   void moveLM(double x, double y) {
-      this->lm.addPos(x, y);
+   // Update the LM's position with the given user interface and time interval
+   void updateLM(const Interface *pUI) {
+      lm.update(pUI, TIME_INTERVAL);
    }
 
    // Get the position of the Lunar Module
@@ -47,7 +46,7 @@ public:
    }
 
    // Get the angle of the Lunar Module
-   double getLMAngle() {
+   Angle* getLMAngle() {
       return lm.getAngle();
    }
 
@@ -84,6 +83,7 @@ private:
          double posX = random(0.0, ptUpperRight.getX());
          double posY = random(0.0, ptUpperRight.getY());
          
+         // Add the new Star to the list of Stars
          stars.push_back(new Star(Point(posX, posY)));
       }
       assert(stars.size() == NUM_STARS); // Make sure it generates all 50 stars
