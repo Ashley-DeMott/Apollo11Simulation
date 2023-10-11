@@ -2,17 +2,13 @@
  * 1. Name:
  *      Ashley DeMott and Jason Geppelt
  * 2. Assignment Name:
- *      Lab 04: Apollo 11 Visuals
+ *      Lab 05: Apollo 11 
  * 3. Assignment Description:
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
- *      At first, the program was creating 50 new stars every time it
- *      looped through the callback. It was neat, but definetly not what
- *      we needed to do. Eventually we put all the stars in a list before 
- *      the callback loop and then during the loop, updated each star's 
- *      phase.       
+ *      ...      
  * 5. How long did it take for you to complete the assignment?
- *     5 hrs
+ *     so far 2 hrs
  *****************************************************************/
 #include "Simulator.h"
 #include "uiDraw.h"
@@ -37,8 +33,6 @@ void callBack(const Interface *pUI, void * p)
 
    // draw our little stars (behind the ground)
    for (Star* s : *(sim->getStars())) {
-      // Extra: random stars
-      //gout.drawStar(Point( random(0.0, sim->getUpperRight()->getX()), random(0.0, sim->getUpperRight()->getY())), random(0, 255));
       gout.drawStar(*(s->getPos()), s->getPhase());
    }
    
@@ -61,7 +55,6 @@ void callBack(const Interface *pUI, void * p)
    gout.precision(2);
    gout << "Altitude: " << sim->getLMAltitude() << " meters\n";
    gout << "Speed: " << sim->getLMVel() << "m/s\n";
-   //gout << "Angle: " << sim->getLMAngle()->getDegrees() << " degrees\n";
 }
 
 /*********************************

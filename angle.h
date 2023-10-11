@@ -73,7 +73,7 @@ public:
 		out.setf(std::ios::showpoint);
 		out.precision(1);
 
-		out << getDegrees() << "degrees";
+		out << "Angle: " << getDegrees() << " degrees";
 		return out;
 	}
 

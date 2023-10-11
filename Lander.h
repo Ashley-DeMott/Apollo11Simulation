@@ -11,7 +11,7 @@
 #define GRAVITY     -1.625   // Vertical acceleration due to gravity, in m/s^2
 #define THRUST   45000.000   // Thrust of main engine, in Newtons (kg m/s^2)
 
-const bool PHYSICS = false;
+const bool PHYSICS = true;
 
 /*********************************
  * LANDER
@@ -100,8 +100,10 @@ private:
        // Calculate acceleration based on thrust and mass (F = m * a)
        double accThrust = computeAcceleration(THRUST, WEIGHT);
 
+       // Have acceleration, need direction now
+
        // Add it to the x and y accelerations, with the Landar's current angle
-       a.addX(computeHorizontalComponent(angle.getRadians(), accThrust));
+       a.addX(computeHorizontalComponent(angle.getRadians() - M_PI, accThrust));
        a.addY(computeVerticalComponent(angle.getRadians(), accThrust));
     }
 
