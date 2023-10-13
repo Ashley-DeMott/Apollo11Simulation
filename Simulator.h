@@ -85,28 +85,30 @@ public:
    }
 
    // Returns if the Lander has hit the ground (or is below the ground)
-   const bool lunarGrounded() {       
-       bool hitGround = 0 > ground.getElevation(*(lm.getPos()));
-       
-       // If the Lander has hit the ground,
-       if (hitGround) { 
-           // The LM has landed
-           lm.land();
-       }
-      
-       return hitGround;
+   const bool hitGround() {       
+       return 0 > ground.getElevation(*(lm.getPos()));
    }
 
    // Checks if the Lander has landed safely on the platform
    const bool safelyLanded() {
-       // The Lander must be travelling at a safe speed
-       bool safeSpeed = (lm.getVel() < SAFE_LANDING_VEL);
+       bool safelyLanded = false;
 
-       // The Lander must land on the platform
-       bool onPlaform = ground.onPlatform(*(lm.getPos()), lm.getWidth());
+       // If the Lander has hit the ground,
+       if (hitGround()) {
+           // The Lander must be travelling at a safe speed
+           bool safeSpeed = (lm.getVel() < SAFE_LANDING_VEL);
 
+           // The Lander must land on the platform
+           bool onPlaform = ground.onPlatform(*(lm.getPos()), lm.getWidth());
+
+           safelyLanded = onPlaform && safeSpeed;
+
+           // The LM has landed
+           lm.land(safelyLanded);
+       }
+       
        // Must meet both conditions
-       return onPlaform && safeSpeed;
+       return safelyLanded;
    }
 
 private:

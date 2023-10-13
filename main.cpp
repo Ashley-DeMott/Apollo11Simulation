@@ -32,7 +32,7 @@ void callBack(const Interface *pUI, void * p)
    sim->updateLM(pUI);
 
    // If the Lander has hit the ground,
-   if (sim->lunarGrounded()) {
+   if (sim->hitGround()) {
        // Print end-of-game message
        gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0));
        

@@ -60,7 +60,7 @@ public:
     }
 
     // Called when the Lander has landed on the Ground
-    void land() {
+    void land(bool safelyLanded) {
         // The Lander has landed, no more flying
         landed = true;
 
@@ -69,8 +69,15 @@ public:
         rotateLeft = false;
         rotateRight = false;
 
-        // Set the Lander upside down
-        angle.setRadians(M_PI); 
+        // If the Lander has landed safely
+        if (safelyLanded) {
+            // Set the Lander upright
+            angle.setRadians(0);
+        }
+        else {            
+            // Set the Lander upside down
+            angle.setRadians(M_PI);
+        }
     }
 
     bool hasLanded() {
