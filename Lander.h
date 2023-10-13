@@ -13,7 +13,10 @@
 
 // The default values for the lander
 const int STARTING_FUEL = 5000;
-const int WIDTH = 20;
+const int WIDTH = 2;
+const int THRUST_FUEL = 10;
+const int ROTATE_FUEL = 1;
+
 
 /*********************************
  * LANDER
@@ -31,16 +34,16 @@ public:
         a.setX(computeHorizontalComponent(0, GRAVITY));
         a.setY(computeVerticalComponent(0, GRAVITY));
 
-        // Get movement from the user
+        getUserInput(pUI);
+
         // Add thrust, turn left and right
-        // ERROR: Turning left/right messes up thrust (goes opposite to turn direction)
-        if (pUI->isRight()) {
+        if (rotateRight) {
             rotate(-0.1);
         }
-        if (pUI->isLeft()) {
+        if (rotateLeft) {
             rotate(0.1);
         }
-        if (pUI->isUp() && fuel > 0) {
+        if (thrust) {
             addThrust();
         }
 
@@ -71,12 +74,24 @@ public:
     }
 
     // Get the remaining fuel of the Lander
-    double getFuel() {
+    int getFuel() {
         return fuel;
     }
 
     int getWidth() {
         return width;
+    }
+
+    bool getThrust() {
+        return thrust;
+    }
+
+    bool getRotateLeft() {
+        return rotateLeft;
+    }
+
+    bool getRotateRight() {
+        return rotateRight;
     }
 
 private:
@@ -89,6 +104,17 @@ private:
     bool thrust; // If the thrust is on
     int width; // The Lander's width in meters
 
+    // If the Lander is turning left or right
+    bool rotateRight = false;
+    bool rotateLeft = false;
+
+    // Get movement from the user
+    void getUserInput(const Interface* pUI) {
+        rotateRight = pUI->isRight() && fuel >= ROTATE_FUEL;
+        rotateLeft = pUI->isLeft() && fuel >= ROTATE_FUEL;
+        thrust = pUI->isUp() && fuel >= THRUST_FUEL;
+    }
+
     // Add accelertation from thrust to the Lander
     void addThrust() {
        // Calculate acceleration based on thrust and mass (F = m * a)
@@ -99,7 +125,7 @@ private:
        a.addY(computeVerticalComponent(angle.getRadians(), accThrust));
 
        // Decrease fuel
-       fuel -= 10;
+       fuel -= THRUST_FUEL;
     }
 
     // Rotate the Lander left or right
@@ -108,7 +134,7 @@ private:
        angle.setRadians(angle.getRadians() + r);
 
        // Decrease fuel
-       fuel -= 1;
+       fuel -= ROTATE_FUEL;
     }
 
     // MATH METHODS //

@@ -60,7 +60,8 @@ void callBack(const Interface *pUI, void * p)
    // Draw the lander and its flames
    gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle()->getRadians() /*angle*/);
    gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle()->getRadians(), /*angle*/
-                    pUI->isUp(), pUI->isLeft(), pUI->isRight());
+                    sim->getLMThrust(), sim->getLMRotateLeft(), sim->getLMRotateRight());
+
 
    // Print messages to the screen
    // Printing near the top left of the screen,

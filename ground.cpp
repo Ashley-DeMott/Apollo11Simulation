@@ -110,6 +110,7 @@ bool Ground :: onPlatform(const Point & position, int landerWidth) const
    if (getElevation(position) < 0.0)
       return false;
 
+   /*
    // not on the platform if we are too far left
    if (position.getX() + landerWidth / 2.0 < (double)iLZ)
       return false;
@@ -117,6 +118,7 @@ bool Ground :: onPlatform(const Point & position, int landerWidth) const
    // not on the platform if we are too far right
    if (position.getX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
       return false;
+      */
 
    return true;
 }
