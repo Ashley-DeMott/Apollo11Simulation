@@ -26,36 +26,57 @@ const int ROTATE_FUEL = 1;
 class Lander {
 public:
     // Constructor
-    Lander(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH) { }
+    Lander(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH), landed(false) { }
 
     // Update the position of the Lander given user input and how long it has been
     void update(const Interface* pUI, double t) {
-        // Add acceleration due to gravity (x and y directions), Angle = 0, with Gravity pulling the LM down
-        a.setX(computeHorizontalComponent(0, GRAVITY));
-        a.setY(computeVerticalComponent(0, GRAVITY));
+        // If the Lander has not yet landed,
+        if (!landed) {
+            // Add acceleration due to gravity (x and y directions), Angle = 0, with Gravity pulling the LM down
+            a.setX(computeHorizontalComponent(0, GRAVITY));
+            a.setY(computeVerticalComponent(0, GRAVITY));
 
-        getUserInput(pUI);
+            getUserInput(pUI);
 
-        // Add thrust, turn left and right
-        if (rotateRight) {
-            rotate(-0.1);
+            // Add thrust, turn left and right
+            if (rotateRight) {
+                rotate(-0.1);
+            }
+            if (rotateLeft) {
+                rotate(0.1);
+            }
+            if (thrust) {
+                addThrust();
+            }
+
+            // Recalculate velocity using new acceleration
+            v.setX(computeVelocity(v.getX(), a.getX(), t));
+            v.setY(computeVelocity(v.getY(), a.getY(), t));
+
+            // Recalulate position using new velocity and acceleration
+            pos.setX(computeDistance(pos.getX(), v.getX(), a.getX(), t));
+            pos.setY(computeDistance(pos.getY(), v.getY(), a.getY(), t));
         }
-        if (rotateLeft) {
-            rotate(0.1);
-        }
-        if (thrust) {
-            addThrust();
-        }
-
-        // Recalculate velocity using new acceleration
-        v.setX(computeVelocity(v.getX(), a.getX(), t));
-        v.setY(computeVelocity(v.getY(), a.getY(), t));
-
-        // Recalulate position using new velocity and acceleration
-        pos.setX(computeDistance(pos.getX(), v.getX(), a.getX(), t));
-        pos.setY(computeDistance(pos.getY(), v.getY(), a.getY(), t));
     }
 
+    // Called when the Lander has landed on the Ground
+    void land() {
+        // The Lander has landed, no more flying
+        landed = true;
+
+        // Turn off all thrusters
+        thrust = false;
+        rotateLeft = false;
+        rotateRight = false;
+
+        // Set the Lander upside down
+        angle.setRadians(M_PI); 
+    }
+
+    bool hasLanded() {
+        return landed;
+    }
+    
     // GETTERS //
 
     // Get position of the lander
@@ -107,6 +128,9 @@ private:
     // If the Lander is turning left or right
     bool rotateRight = false;
     bool rotateLeft = false;
+
+    // If the Lander has landed on the Ground
+    bool landed;
 
     // Get movement from the user
     void getUserInput(const Interface* pUI) {

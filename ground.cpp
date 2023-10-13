@@ -16,7 +16,8 @@ const double MAX_SLOPE = 2.7; // steapness of the features. Smaller number is fl
 const double LUMPINESS = 1.0; // size of the hills. Smaller number is bigger features
 const double TEXTURE = 3.0;   // size of the small features such as rocks
 
-const double MAX_ALT = 1.0;
+// Checks if an object is on the ground (+/- 1 meter)
+const double MAX_ALT = 1.0;  
 const double MIN_ALT = -1.0;
 
  /************************************************************************
@@ -91,11 +92,13 @@ bool Ground::hitGround(const Point& position, int landerWidth) const
    xMin = (xMin < 0 ? 0 : xMin);
    xMax = (xMax > (int)ptUpperRight.getX() - 1 ? (int)ptUpperRight.getX() - 1 :  xMax);
 
+   // For the specific 
    double maxElevation = ground[xMin];
    for (int i = xMin + 1; i <= xMax; i++)
       if (ground[i] > maxElevation)
          maxElevation = ground[i];
 
+   // Return if the given point is beneath the ground
    return position.getY() < maxElevation;
 }
 

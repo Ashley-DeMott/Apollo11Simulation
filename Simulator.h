@@ -23,7 +23,7 @@ class Simulator
 public:
     // Constructor to initialize the different parts of the simulator with the upper 
     // right point and to create a list of stars.
-   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)), gameOver(false) {
+   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)) {
       createStars(); // Create all the Stars to be displayed
    }
 
@@ -34,9 +34,7 @@ public:
 
    // Update the LM's position with the given user interface and time interval
    void updateLM(const Interface* pUI) {
-       if (!gameOver) {
-           lm.update(pUI, TIME_INTERVAL);
-       }
+       lm.update(pUI, TIME_INTERVAL);
    }
 
    // Get the position of the Lunar Module
@@ -90,8 +88,11 @@ public:
    const bool lunarGrounded() {       
        bool hitGround = 0 > ground.getElevation(*(lm.getPos()));
        
-       // If the Lander has hit the ground, the game is over
-       if (hitGround) { gameOver = true; }
+       // If the Lander has hit the ground,
+       if (hitGround) { 
+           // The LM has landed
+           lm.land();
+       }
       
        return hitGround;
    }
@@ -113,7 +114,6 @@ private:
    Lander lm;              // The Lunar Module
    list<Star*> stars;      // A list for all the Star pointers
    Ground ground;          // The ground
-   bool gameOver;
 
    // Create stars and add them to the list
    void createStars() {

@@ -31,7 +31,6 @@ void callBack(const Interface *pUI, void * p)
    // Update the Lunar Lander (will do nothing if the Lunar has hit the ground)
    sim->updateLM(pUI);
 
-   // Collision detection
    // If the Lander has hit the ground,
    if (sim->lunarGrounded()) {
        // Print end-of-game message
@@ -62,7 +61,6 @@ void callBack(const Interface *pUI, void * p)
    gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle()->getRadians(), /*angle*/
                     sim->getLMThrust(), sim->getLMRotateLeft(), sim->getLMRotateRight());
 
-
    // Print messages to the screen
    // Printing near the top left of the screen,
    gout.setPosition(Point(10.0, sim->getUpperRight()->getY() - 20.0));
@@ -70,10 +68,14 @@ void callBack(const Interface *pUI, void * p)
    // Show the Lunar Modules Fuel level
    gout << "Fuel: " << sim->getLMFuel() << " lbs\n";
    
-   // Show the Altitude and Speed with only 2 decimal points
+   // Displays the altitute as 0 or the actual altitude (prevents negative altitude from showing)
+   gout.setf(ios::fixed); 
+   gout.precision(0);
+   gout << "Altitude: " << max(0.0, sim->getLMAltitude()) << " meters\n";
+   
+   // Show the Speed with 2 decimal points
    gout.setf(ios::fixed | ios::showpoint);
    gout.precision(2);
-   gout << "Altitude: " << sim->getLMAltitude() << " meters\n";
    gout << "Speed: " << sim->getLMVel() << "m/s\n";
 }
 
