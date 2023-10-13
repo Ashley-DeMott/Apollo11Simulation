@@ -10,7 +10,7 @@
 using namespace std;
 
 #define TIME_INTERVAL 0.1 // How often callBack is called, the speed of the Simulation
-#define SAFE_LANDING_VEL 40.0  // The maximum velocity the Lander can safely land
+#define SAFE_LANDING_VEL 4.0  // The maximum velocity the Lander can safely land
 
 const int  NUM_STARS = 50;  // The number of Stars to create
 
@@ -81,8 +81,6 @@ public:
       return &stars;
    }
 
-
-
    // Draw the ground
    const void drawGround(ogstream &out) {
       ground.draw(out);
@@ -98,11 +96,16 @@ public:
        return hitGround;
    }
 
-   // If the Lander has hit the platform
-   const bool lunarLanded() {
+   // Checks if the Lander has landed safely on the platform
+   const bool safelyLanded() {
+       // The Lander must be travelling at a safe speed
        bool safeSpeed = (lm.getVel() < SAFE_LANDING_VEL);
-       bool safeLanding = ground.onPlatform(*(lm.getPos()), lm.getWidth());
-       return safeLanding;
+
+       // The Lander must land on the platform
+       bool onPlaform = ground.onPlatform(*(lm.getPos()), lm.getWidth());
+
+       // Must meet both conditions
+       return onPlaform && safeSpeed;
    }
 
 private:

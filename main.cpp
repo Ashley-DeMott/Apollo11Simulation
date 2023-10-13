@@ -6,9 +6,9 @@
  * 3. Assignment Description:
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
- *      ...      
+ *          
  * 5. How long did it take for you to complete the assignment?
- *     so far 2 hrs-
+ *     4 hrs
  *****************************************************************/
 #include "Simulator.h"
 #include "uiDraw.h"
@@ -37,11 +37,11 @@ void callBack(const Interface *pUI, void * p)
        // Print end-of-game message
        gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0));
        
-       // If the Lander is on the platform and is travelling at a safe velocity
-       if (sim->lunarLanded()) {
+       // If the Lander has safely landed,
+       if (sim->safelyLanded()) {
            gout << "The Eagle has landed!"; 
        }
-       // The Lander is not travelling at a safe velocity or has hit another part of the ground
+       // The Lander is not travelling at a safe velocity or is not on the platform,
        else {
            gout << "Houston, we have a problem!";
        }

@@ -16,6 +16,9 @@ const double MAX_SLOPE = 2.7; // steapness of the features. Smaller number is fl
 const double LUMPINESS = 1.0; // size of the hills. Smaller number is bigger features
 const double TEXTURE = 3.0;   // size of the small features such as rocks
 
+const double MAX_ALT = 1.0;
+const double MIN_ALT = -1.0;
+
  /************************************************************************
   * GROUND constructor
   * Create a new grond object
@@ -102,23 +105,13 @@ bool Ground::hitGround(const Point& position, int landerWidth) const
  ************************************************************************/
 bool Ground :: onPlatform(const Point & position, int landerWidth) const
 {
-   // not on the platform if we are too high
-   if (getElevation(position) > 1.0)
+   // not on the platform if we are too high or too low
+   if (getElevation(position) > MAX_ALT || getElevation(position) < MIN_ALT)
       return false;
-
-   // not on the platform if we hit the ground
-   if (getElevation(position) < 0.0)
+   
+   // not on the platform if we are too far left or right
+   if (position.getX() + landerWidth / 2.0 < (double)iLZ || position.getX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
       return false;
-
-   /*
-   // not on the platform if we are too far left
-   if (position.getX() + landerWidth / 2.0 < (double)iLZ)
-      return false;
-
-   // not on the platform if we are too far right
-   if (position.getX() - landerWidth / 2.0 > (double)(iLZ + LZ_SIZE))
-      return false;
-      */
 
    return true;
 }
