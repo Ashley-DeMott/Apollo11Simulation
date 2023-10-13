@@ -2,13 +2,13 @@
  * 1. Name:
  *      Ashley DeMott and Jason Geppelt
  * 2. Assignment Name:
- *      Lab 05: Apollo 11 
+ *      Lab 05: Apollo 11 Code Complete
  * 3. Assignment Description:
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
  *      ...      
  * 5. How long did it take for you to complete the assignment?
- *     so far 2 hrs
+ *     so far 2 hrs-
  *****************************************************************/
 #include "Simulator.h"
 #include "uiDraw.h"
@@ -28,29 +28,48 @@ void callBack(const Interface *pUI, void * p)
    // is the first step of every single callback function in OpenGL. 
    Simulator* sim = (Simulator *)p;
 
-   // Update the Lunar Lander
+   // Update the Lunar Lander (will do nothing if the Lunar has hit the ground)
    sim->updateLM(pUI);
+
+   // Collision detection
+   // If the Lander has hit the ground,
+   if (sim->lunarGrounded()) {
+       // Print end-of-game message
+       gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0));
+       
+       // If the Lander is on the platform and is travelling at a safe velocity
+       if (sim->lunarLanded()) {
+           gout << "The Eagle has landed!"; 
+       }
+       // The Lander is not travelling at a safe velocity or has hit another part of the ground
+       else {
+           gout << "Houston, we have a problem!";
+       }
+   }
+   
+   // DRAWING //
 
    // draw our little stars (behind the ground)
    for (Star* s : *(sim->getStars())) {
-      gout.drawStar(*(s->getPos()), s->getPhase());
+       gout.drawStar(*(s->getPos()), s->getPhase());
    }
-   
+
    // draw the ground
    sim->drawGround(gout);
 
-   // draw the lander and its flames
+   // Draw the lander and its flames
    gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle()->getRadians() /*angle*/);
    gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle()->getRadians(), /*angle*/
                     pUI->isUp(), pUI->isLeft(), pUI->isRight());
 
-   // Printing near the top left of the screen,   
+   // Print messages to the screen
+   // Printing near the top left of the screen,
    gout.setPosition(Point(10.0, sim->getUpperRight()->getY() - 20.0));
 
    // Show the Lunar Modules Fuel level
-   gout << "Fuel: " << sim->getLMFuel() << "\n";
+   gout << "Fuel: " << sim->getLMFuel() << " lbs\n";
    
-   // Only show the Altitude and Speed with 2 decimal points
+   // Show the Altitude and Speed with only 2 decimal points
    gout.setf(ios::fixed | ios::showpoint);
    gout.precision(2);
    gout << "Altitude: " << sim->getLMAltitude() << " meters\n";

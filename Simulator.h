@@ -9,8 +9,10 @@
 
 using namespace std;
 
-const int NUM_STARS = 50;  // The number of Stars to create
 #define TIME_INTERVAL 0.1 // How often callBack is called, the speed of the Simulation
+#define SAFE_LANDING_VEL = 4.0  // The maximum velocity the Lander can safely land
+
+const int  NUM_STARS = 50;  // The number of Stars to create
 
 /*************************************************************************
  * Simulator
@@ -21,7 +23,7 @@ class Simulator
 public:
     // Constructor to initialize the different parts of the simulator with the upper 
     // right point and to create a list of stars.
-   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX() / 2.0), ptUpperRight.getY() / 2.0)) {
+   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)), gameOver(false) {
       createStars(); // Create all the Stars to be displayed
    }
 
@@ -31,8 +33,10 @@ public:
    }
 
    // Update the LM's position with the given user interface and time interval
-   void updateLM(const Interface *pUI) {
-      lm.update(pUI, TIME_INTERVAL);
+   void updateLM(const Interface* pUI) {
+       if (!gameOver) {
+           lm.update(pUI, TIME_INTERVAL);
+       }
    }
 
    // Get the position of the Lunar Module
@@ -70,11 +74,27 @@ public:
       ground.draw(out);
    }
 
+   // Returns if the Lander has hit the ground (or is below the ground)
+   const bool lunarGrounded() {       
+       bool hitGround = 0 > ground.getElevation(*(lm.getPos()));
+       
+       // If the Lander has hit the ground, the game is over
+       if (hitGround) { gameOver = true; }
+      
+       return hitGround;
+   }
+
+   // If the Lander has hit the platform
+   const bool lunarLanded() {
+       return ground.onPlatform(*(lm.getPos()), lm.getWidth());
+   }
+
 private:
    Point ptUpperRight;     // The upper right corner of the screen
    Lander lm;              // The Lunar Module
    list<Star*> stars;      // A list for all the Star pointers
    Ground ground;          // The ground
+   bool gameOver;
 
    // Create stars and add them to the list
    void createStars() {

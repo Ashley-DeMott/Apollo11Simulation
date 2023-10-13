@@ -11,7 +11,9 @@
 #define GRAVITY     -1.625   // Vertical acceleration due to gravity, in m/s^2
 #define THRUST   45000.000   // Thrust of main engine, in Newtons (kg m/s^2)
 
-const bool PHYSICS = true;
+// The default values for the lander
+const int STARTING_FUEL = 5000;
+const int WIDTH = 20;
 
 /*********************************
  * LANDER
@@ -21,47 +23,34 @@ const bool PHYSICS = true;
 class Lander {
 public:
     // Constructor
-    Lander(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(5000), thrust(false) { }
+    Lander(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH) { }
 
     // Update the position of the Lander given user input and how long it has been
-    void update(const Interface* pUI, double t) {       
-       // For Week 5, testing physics
-       if (PHYSICS) {
-          // Add acceleration due to gravity (x and y directions), Angle = 0, with Gravity pulling the LM down
-          a.setX(computeHorizontalComponent(0, GRAVITY));
-          a.setY(computeVerticalComponent(0, GRAVITY));
+    void update(const Interface* pUI, double t) {
+        // Add acceleration due to gravity (x and y directions), Angle = 0, with Gravity pulling the LM down
+        a.setX(computeHorizontalComponent(0, GRAVITY));
+        a.setY(computeVerticalComponent(0, GRAVITY));
 
-          // Get movement from the user
-          // Add thrust, turn left and right
-          // ERROR: Turning left/right messes up thrust (goes opposite to turn direction)
-          if (pUI->isRight())
-             rotate(-0.1);
-          if (pUI->isLeft())
-             rotate(0.1);
-          if (pUI->isUp())
-             addThrust();
+        // Get movement from the user
+        // Add thrust, turn left and right
+        // ERROR: Turning left/right messes up thrust (goes opposite to turn direction)
+        if (pUI->isRight()) {
+            rotate(-0.1);
+        }
+        if (pUI->isLeft()) {
+            rotate(0.1);
+        }
+        if (pUI->isUp() && fuel > 0) {
+            addThrust();
+        }
 
-          // Recalculate velocity using new acceleration
-          v.setX(computeVelocity(v.getX(), a.getX(), t));
-          v.setY(computeVelocity(v.getY(), a.getY(), t));
+        // Recalculate velocity using new acceleration
+        v.setX(computeVelocity(v.getX(), a.getX(), t));
+        v.setY(computeVelocity(v.getY(), a.getY(), t));
 
-          // Recalulate position using new velocity and acceleration
-          pos.setX(computeDistance(pos.getX(), v.getX(), a.getX(), t));
-          pos.setY(computeDistance(pos.getY(), v.getY(), a.getY(), t));
-       }
-
-       // Week 4
-       else {
-          // move the ship around (up, down, left, right), with no physics
-          if (pUI->isRight())
-             pos.addX(1.0);
-          if (pUI->isLeft())
-             pos.addX(-1.0);
-          if (pUI->isUp())
-             pos.addY(1.0);
-          if (pUI->isDown())
-             pos.addY(-1.0);
-       }
+        // Recalulate position using new velocity and acceleration
+        pos.setX(computeDistance(pos.getX(), v.getX(), a.getX(), t));
+        pos.setY(computeDistance(pos.getY(), v.getY(), a.getY(), t));
     }
 
     // GETTERS //
@@ -86,6 +75,10 @@ public:
         return fuel;
     }
 
+    int getWidth() {
+        return width;
+    }
+
 private:
     Point pos; // The position of the Lander (x and y)
     Point v; // The total velocity of the Lander
@@ -93,24 +86,29 @@ private:
 
     Angle angle; // The angle of the Lander
     int fuel; // The fuel of the Lander
-    bool thrust;
+    bool thrust; // If the thrust is on
+    int width; // The Lander's width in meters
 
     // Add accelertation from thrust to the Lander
     void addThrust() {
        // Calculate acceleration based on thrust and mass (F = m * a)
        double accThrust = computeAcceleration(THRUST, WEIGHT);
 
-       // Have acceleration, need direction now
-
        // Add it to the x and y accelerations, with the Landar's current angle
        a.addX(computeHorizontalComponent(angle.getRadians() - M_PI, accThrust));
        a.addY(computeVerticalComponent(angle.getRadians(), accThrust));
+
+       // Decrease fuel
+       fuel -= 10;
     }
 
     // Rotate the Lander left or right
     void rotate(double r) {
        // Update the Lander's Angle (in radians)
        angle.setRadians(angle.getRadians() + r);
+
+       // Decrease fuel
+       fuel -= 1;
     }
 
     // MATH METHODS //
