@@ -6,9 +6,17 @@
  * 3. Assignment Description:
  *      Simulate the Apollo 11 landing
  * 4. What was the hardest part? Be as specific as possible.
- *     
+ *     At first, the Lander wasn't being registered as "on the platform" since
+ *      Ground::onPlatform checked if the Lander was between 1.0 and 0.0 meters.
+ *      The Lander would sometimes be at a negative altitude, but still within
+ *      the +/-1.0 meter of the correct altitude, and that approximate range
+ *      is needed when working with doubles/floating point values.
+ *    Also, the Lander's thrusters would still be drawn as "on" even if the
+ *      Lander was out of fuel, or had landed. We fixed this by keeping 
+ *      all user input within the Lander class, and drawLanderFlames now
+ *      has to ask the Simulator which of the Lander's thursters are on.
  * 5. How long did it take for you to complete the assignment?
- *     4 hrs
+ *     5 hrs
  *****************************************************************/
 #include "Simulator.h"
 #include "uiDraw.h"
