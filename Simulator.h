@@ -9,10 +9,10 @@
 
 using namespace std;
 
-#define TIME_INTERVAL 0.1 // How often callBack is called, the speed of the Simulation
-#define SAFE_LANDING_VEL 4.0  // The maximum velocity the Lander can safely land
+#define TIME_INTERVAL 0.1       // How often callBack is called, the speed of the Simulation
+#define SAFE_LANDING_VEL 4.0    // The maximum velocity the Lander can safely land
 
-const int  NUM_STARS = 50;  // The number of Stars to create
+const int  NUM_STARS = 50;      // The number of Stars to create
 
 /*************************************************************************
  * Simulator
@@ -62,14 +62,17 @@ public:
       return ground.getElevation(*(lm.getPos()));
    }
 
+   // Get if the LM thruster is on
    bool getLMThrust() {
        return lm.getThrust();
    }
 
+   // Get if the LM is rotating left
    bool getLMRotateLeft() {
        return lm.getRotateLeft();
    }
 
+   // Get if the LM is rotating right
    bool getLMRotateRight() {
        return lm.getRotateRight();
    }
@@ -106,6 +109,7 @@ public:
            // The LM has landed
            lm.land(safelyLanded);
        }
+       // Else assert false? Shouldn't call this method if lm hasn't hit the ground
        
        // Must meet both conditions
        return safelyLanded;

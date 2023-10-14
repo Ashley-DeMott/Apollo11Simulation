@@ -17,7 +17,6 @@ const int WIDTH = 2;
 const int THRUST_FUEL = 10;
 const int ROTATE_FUEL = 1;
 
-
 /*********************************
  * LANDER
  * The moon lander itself will keep track of its position,
@@ -36,6 +35,7 @@ public:
             a.setX(computeHorizontalComponent(0, GRAVITY));
             a.setY(computeVerticalComponent(0, GRAVITY));
 
+            // Get user input, sets which thrusters are on
             getUserInput(pUI);
 
             // Add thrust, turn left and right
@@ -80,6 +80,7 @@ public:
         }
     }
 
+    // If the Lander has landed
     bool hasLanded() {
         return landed;
     }
@@ -105,41 +106,44 @@ public:
     int getFuel() {
         return fuel;
     }
-
+    
+    // Get the width of the Lander
     int getWidth() {
         return width;
     }
 
+    // If the Lander's main thruster is on
     bool getThrust() {
         return thrust;
     }
 
+    // If the Lander is turning left
     bool getRotateLeft() {
         return rotateLeft;
     }
 
+    // If the Lander is turning right
     bool getRotateRight() {
         return rotateRight;
     }
 
 private:
-    Point pos; // The position of the Lander (x and y)
-    Point v; // The total velocity of the Lander
-    Point a; // The total acceleration of the Lander
+    Point pos;      // The position of the Lander (x and y)
+    Point v;        // The total velocity of the Lander
+    Point a;        // The total acceleration of the Lander
 
-    Angle angle; // The angle of the Lander
-    int fuel; // The fuel of the Lander
-    bool thrust; // If the thrust is on
-    int width; // The Lander's width in meters
+    Angle angle;    // The angle of the Lander
+    int fuel;       // The fuel of the Lander
+    int width;      // The Lander's width in meters
+    bool thrust;    // If the thrust is on
+
+    bool landed; // If the Lander has landed on the Ground
 
     // If the Lander is turning left or right
     bool rotateRight = false;
     bool rotateLeft = false;
 
-    // If the Lander has landed on the Ground
-    bool landed;
-
-    // Get movement from the user
+    // Get movement input from the user
     void getUserInput(const Interface* pUI) {
         rotateRight = pUI->isRight() && fuel >= ROTATE_FUEL;
         rotateLeft = pUI->isLeft() && fuel >= ROTATE_FUEL;
