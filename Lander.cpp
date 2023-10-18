@@ -12,10 +12,10 @@ void Lander::update(const Interface* pUI, double t) {
 
         // Add thrust, turn left and right
         if (rotateRight) {
-            rotate(-0.1);
+            rotate(-ROTATION);
         }
         if (rotateLeft) {
-            rotate(0.1);
+            rotate(ROTATION);
         }
         if (thrust) {
             addThrust();

@@ -16,6 +16,9 @@ const int WIDTH = 2;
 const int THRUST_FUEL = 10;
 const int ROTATE_FUEL = 1;
 
+// How far the lander rotates when the user presses left or right
+const double ROTATION = 0.1;
+
 /*********************************
  * LANDER
  * The moon lander itself will keep track of its position,
@@ -73,7 +76,8 @@ private:
     // If the Lander has landed on the Ground
     bool landed; 
 
-    bool thrust;    // If the thrust is on
+    // If the thrust is on
+    bool thrust;    
 
     // If the Lander is turning left or right
     bool rotateRight;
@@ -159,7 +163,7 @@ private:
     *     y : the vertical component of the total
     ***********************************************/
     double computeVerticalComponent(double a, double total) {
-       return total * cos(a);
+        return total * cos(a);
     }
 
     /***********************************************
@@ -181,7 +185,7 @@ private:
     *     x : the vertical component of the total
     ***********************************************/
     double computeHorizontalComponent(double a, double total) {
-       return sin(a) * total;
+        return sin(a) * total;
     }
 
     /************************************************
@@ -202,8 +206,8 @@ private:
     *    y : vertical component
     * OUTPUT
     *    total : total component
-    ***********************************************/
+    ***********************************************/ 
     double computeTotalComponent(double x, double y) {
-       return  sqrt((x * x) + (y * y));
+        return sqrt((x * x) + (y * y));
     }
 };

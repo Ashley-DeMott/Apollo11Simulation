@@ -19,7 +19,6 @@
  *     5 hrs
  *****************************************************************/
 #include "Simulator.h"
-#include "uiDraw.h"
 
 /*************************************
  * All the interesting work happens here, when
@@ -46,7 +45,7 @@ void callBack(const Interface *pUI, void * p)
        
        // If the Lander has safely landed,
        if (sim->safelyLanded()) {
-           gout << "The Eagle has landed!"; 
+           gout << "The Eagle has landed!";
        }
        // The Lander is not travelling at a safe velocity or is not on the platform,
        else {
@@ -56,7 +55,7 @@ void callBack(const Interface *pUI, void * p)
    
    // DRAWING //
 
-   // draw our little stars (Randomly around the window, but behind the ground)
+   // draw our little stars (randomly around the window, but behind the ground)
    for (Star* s : *(sim->getStars())) {
        gout.drawStar(*(s->getPos()), s->getPhase());
    }
@@ -77,11 +76,11 @@ void callBack(const Interface *pUI, void * p)
    gout << "Fuel: " << sim->getLMFuel() << " lbs\n";
    
    // Displays the altitute as 0 or the actual altitude (prevents negative altitude from showing)
-   gout.setf(ios::fixed); 
+   gout.setf(ios::fixed);
    gout.precision(0);
    gout << "Altitude: " << max(0.0, sim->getLMAltitude()) << " meters\n";
    
-   // Show the Speed with 2 decimal points
+   // Show the speed with 2 decimal points
    gout.setf(ios::fixed | ios::showpoint);
    gout.precision(2);
    gout << "Speed: " << sim->getLMVel() << "m/s\n";
