@@ -41,7 +41,7 @@ void callBack(const Interface *pUI, void * p)
 
    // If the Lander has hit the ground,
    if (sim->hitGround()) {
-       // Print end-of-game message
+       // Print end-of-game message in the middle of the screen
        gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0));
        
        // If the Lander has safely landed,
@@ -56,7 +56,7 @@ void callBack(const Interface *pUI, void * p)
    
    // DRAWING //
 
-   // draw our little stars (behind the ground)
+   // draw our little stars (Randomly around the window, but behind the ground)
    for (Star* s : *(sim->getStars())) {
        gout.drawStar(*(s->getPos()), s->getPhase());
    }

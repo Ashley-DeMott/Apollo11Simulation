@@ -1,10 +1,9 @@
 #pragma once
-#include "point.h"
-#include "angle.h"
-#include <cassert>
-#include "uiInteract.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "point.h"
+#include "angle.h"
+#include "uiInteract.h"
 
 // Constants for the Lander
 #define WEIGHT   15103.000   // Weight in KG
@@ -25,107 +24,42 @@ const int ROTATE_FUEL = 1;
 class Lander {
 public:
     // Constructor
-    Lander(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH), landed(false) { }
+    Lander(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH), landed(false), rotateRight(false), rotateLeft(false) {}
 
     // Update the position of the Lander given user input and how long it has been
-    void update(const Interface* pUI, double t) {
-        // If the Lander has not yet landed,
-        if (!landed) {
-            // Add acceleration due to gravity (x and y directions), Angle = 0, with Gravity pulling the LM down
-            a.setX(computeHorizontalComponent(0, GRAVITY));
-            a.setY(computeVerticalComponent(0, GRAVITY));
-
-            // Get user input, sets which thrusters are on
-            getUserInput(pUI);
-
-            // Add thrust, turn left and right
-            if (rotateRight) {
-                rotate(-0.1);
-            }
-            if (rotateLeft) {
-                rotate(0.1);
-            }
-            if (thrust) {
-                addThrust();
-            }
-
-            // Recalculate velocity using new acceleration
-            v.setX(computeVelocity(v.getX(), a.getX(), t));
-            v.setY(computeVelocity(v.getY(), a.getY(), t));
-
-            // Recalulate position using new velocity and acceleration
-            pos.setX(computeDistance(pos.getX(), v.getX(), a.getX(), t));
-            pos.setY(computeDistance(pos.getY(), v.getY(), a.getY(), t));
-        }
-    }
+    void update(const Interface* pUI, double t);
 
     // Called when the Lander has landed on the Ground
-    void land(bool safelyLanded) {
-        // The Lander has landed, no more flying
-        landed = true;
+    void land(bool safelyLanded);
 
-        // Turn off all thrusters
-        thrust = false;
-        rotateLeft = false;
-        rotateRight = false;
-
-        // If the Lander has landed safely
-        if (safelyLanded) {
-            // Set the Lander upright
-            angle.setRadians(0);
-        }
-        else {            
-            // Set the Lander upside down
-            angle.setRadians(M_PI);
-        }
-    }
-
-    // If the Lander has landed
-    bool hasLanded() {
-        return landed;
-    }
-    
     // GETTERS //
 
+    // If the Lander has landed
+    bool hasLanded() { return landed; }
+
     // Get position of the lander
-    Point* getPos() {
-       return &pos;
-    }
+    Point* getPos() { return &pos; }
 
     // Get the overall velocity of the Lander
-    double getVel() {
-       return computeTotalComponent(v.getX(), v.getY());
-    }
+    double getVel() { return computeTotalComponent(v.getX(), v.getY()); }
 
     // Get the angle of the Lander (in radiasn)
-    Angle* getAngle() {
-        return &angle;
-    }
+    Angle* getAngle() { return &angle; }
 
     // Get the remaining fuel of the Lander
-    int getFuel() {
-        return fuel;
-    }
+    int getFuel() { return fuel; }
     
     // Get the width of the Lander
-    int getWidth() {
-        return width;
-    }
+    int getWidth() { return width; }
 
     // If the Lander's main thruster is on
-    bool getThrust() {
-        return thrust;
-    }
+    bool getThrust() { return thrust; }
 
     // If the Lander is turning left
-    bool getRotateLeft() {
-        return rotateLeft;
-    }
+    bool getRotateLeft() { return rotateLeft; }
 
     // If the Lander is turning right
-    bool getRotateRight() {
-        return rotateRight;
-    }
+    bool getRotateRight() { return rotateRight; }
 
 private:
     Point pos;      // The position of the Lander (x and y)
@@ -135,42 +69,24 @@ private:
     Angle angle;    // The angle of the Lander
     int fuel;       // The fuel of the Lander
     int width;      // The Lander's width in meters
+
+    // If the Lander has landed on the Ground
+    bool landed; 
+
     bool thrust;    // If the thrust is on
 
-    bool landed; // If the Lander has landed on the Ground
-
     // If the Lander is turning left or right
-    bool rotateRight = false;
-    bool rotateLeft = false;
+    bool rotateRight;
+    bool rotateLeft;
 
     // Get movement input from the user
-    void getUserInput(const Interface* pUI) {
-        rotateRight = pUI->isRight() && fuel >= ROTATE_FUEL;
-        rotateLeft = pUI->isLeft() && fuel >= ROTATE_FUEL;
-        thrust = pUI->isUp() && fuel >= THRUST_FUEL;
-    }
+    void getUserInput(const Interface* pUI);
 
     // Add accelertation from thrust to the Lander
-    void addThrust() {
-       // Calculate acceleration based on thrust and mass (F = m * a)
-       double accThrust = computeAcceleration(THRUST, WEIGHT);
-
-       // Add it to the x and y accelerations, with the Landar's current angle
-       a.addX(computeHorizontalComponent(angle.getRadians() - M_PI, accThrust));
-       a.addY(computeVerticalComponent(angle.getRadians(), accThrust));
-
-       // Decrease fuel
-       fuel -= THRUST_FUEL;
-    }
+    void addThrust();
 
     // Rotate the Lander left or right
-    void rotate(double r) {
-       // Update the Lander's Angle (in radians)
-       angle.setRadians(angle.getRadians() + r);
-
-       // Decrease fuel
-       fuel -= ROTATE_FUEL;
-    }
+    void rotate(double r);
 
     // MATH METHODS //
 

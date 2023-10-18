@@ -28,92 +28,46 @@ public:
    }
 
    // Get the upper right point of the simulator
-   Point* getUpperRight() {
-      return &ptUpperRight;
-   }
+   Point* getUpperRight() { return &ptUpperRight; }
 
    // Update the LM's position with the given user interface and time interval
-   void updateLM(const Interface* pUI) {
-       lm.update(pUI, TIME_INTERVAL);
-   }
+   void updateLM(const Interface* pUI) { lm.update(pUI, TIME_INTERVAL); }
 
    // Get the position of the Lunar Module
-   Point* getLMPos() {
-      return lm.getPos();
-   }
+   Point* getLMPos() { return lm.getPos(); }
 
    // Get the velocity of the Lunar Module
-   double getLMVel() {
-      return lm.getVel();
-   }
+   double getLMVel() { return lm.getVel(); }
 
    // Get the angle of the Lunar Module
-   Angle* getLMAngle() {
-      return lm.getAngle();
-   }
+   Angle* getLMAngle() { return lm.getAngle(); }
 
    // Get the fuel level of the Lunar Module
-   int getLMFuel() {
-      return lm.getFuel();
-   }
+   int getLMFuel() { return lm.getFuel(); }
 
    // Get the altitude of the Lunar Module above the ground
-   double getLMAltitude() {
-      return ground.getElevation(*(lm.getPos()));
-   }
+   double getLMAltitude() { return ground.getElevation(*(lm.getPos())); }
 
    // Get if the LM thruster is on
-   bool getLMThrust() {
-       return lm.getThrust();
-   }
+   bool getLMThrust() { return lm.getThrust(); }
 
    // Get if the LM is rotating left
-   bool getLMRotateLeft() {
-       return lm.getRotateLeft();
-   }
+   bool getLMRotateLeft() { return lm.getRotateLeft(); }
 
    // Get if the LM is rotating right
-   bool getLMRotateRight() {
-       return lm.getRotateRight();
-   }
+   bool getLMRotateRight() { return lm.getRotateRight(); }
 
    // Get the list of stars
-   list<Star*>* getStars() {
-      return &stars;
-   }
+   list<Star*>* getStars() { return &stars; }
 
    // Draw the ground
-   const void drawGround(ogstream &out) {
-      ground.draw(out);
-   }
+   const void drawGround(ogstream &out) { ground.draw(out); }
 
    // Returns if the Lander has hit the ground (or is below the ground)
-   const bool hitGround() {       
-       return 0 > ground.getElevation(*(lm.getPos()));
-   }
+   const bool hitGround() { return 0 > ground.getElevation(*(lm.getPos())); }
 
    // Checks if the Lander has landed safely on the platform
-   const bool safelyLanded() {
-       bool safelyLanded = false;
-
-       // If the Lander has hit the ground,
-       if (hitGround()) {
-           // The Lander must be travelling at a safe speed
-           bool safeSpeed = (lm.getVel() < SAFE_LANDING_VEL);
-
-           // The Lander must land on the platform
-           bool onPlaform = ground.onPlatform(*(lm.getPos()), lm.getWidth());
-
-           safelyLanded = onPlaform && safeSpeed;
-
-           // The LM has landed
-           lm.land(safelyLanded);
-       }
-       // Else assert false? Shouldn't call this method if lm hasn't hit the ground
-       
-       // Must meet both conditions
-       return safelyLanded;
-   }
+   const bool safelyLanded();
 
 private:
    Point ptUpperRight;     // The upper right corner of the screen
@@ -122,15 +76,5 @@ private:
    Ground ground;          // The ground
 
    // Create stars and add them to the list
-   void createStars() {
-      // For every star, generate a random X and Y position
-      for (int i = 0; i < NUM_STARS; i++) {
-         double posX = random(0.0, ptUpperRight.getX());
-         double posY = random(0.0, ptUpperRight.getY());
-         
-         // Add the new Star to the list of Stars
-         stars.push_back(new Star(Point(posX, posY)));
-      }
-      assert(stars.size() == NUM_STARS); // Make sure it generates all 50 stars
-   }
+   void createStars();
 };

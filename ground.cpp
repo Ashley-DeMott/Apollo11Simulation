@@ -16,7 +16,7 @@ const double MAX_SLOPE = 2.7; // steapness of the features. Smaller number is fl
 const double LUMPINESS = 1.0; // size of the hills. Smaller number is bigger features
 const double TEXTURE = 3.0;   // size of the small features such as rocks
 
-// Checks if an object is on the ground (+/- 1 meter)
+// Bounds for checking if an object is on the ground (+/- 1 meter)
 const double MAX_ALT = 1.0;  
 const double MIN_ALT = -1.0;
 
