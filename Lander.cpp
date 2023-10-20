@@ -31,6 +31,9 @@ void Lander::update(const Interface* pUI, double t) {
     }
 }
 
+
+
+
 void Lander::land(bool safelyLanded) {
     // The Lander has landed, no more flying
     landed = true;
@@ -55,6 +58,13 @@ void Lander::getUserInput(const Interface* pUI) {
     rotateRight = pUI->isRight() && fuel >= ROTATE_FUEL;
     rotateLeft = pUI->isLeft() && fuel >= ROTATE_FUEL;
     thrust = pUI->isUp() && fuel >= THRUST_FUEL;
+}
+
+// Second Lander controls
+void LanderWASD::getUserInput(const Interface* pUI) {
+    rotateRight = pUI->isD() && fuel >= ROTATE_FUEL;
+    rotateLeft = pUI->isA() && fuel >= ROTATE_FUEL;
+    thrust = pUI->isW() && fuel >= THRUST_FUEL;
 }
 
 void Lander::addThrust() {

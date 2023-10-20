@@ -38,21 +38,22 @@ void callBack(const Interface *pUI, void * p)
    // Update the Lunar Lander (will do nothing if the Lunar has hit the ground)
    sim->updateLM(pUI);
 
-   // If the Lander has hit the ground,
-   if (sim->hitGround()) {
-       // Print end-of-game message in the middle of the screen
-       gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0));
-       
-       // If the Lander has safely landed,
-       if (sim->safelyLanded()) {
-           gout << "The Eagle has landed!";
-       }
-       // The Lander is not travelling at a safe velocity or is not on the platform,
-       else {
-           gout << "Houston, we have a problem!";
+   for (int i = 0; i < 2; i++) {
+       // If the Lander has hit the ground,
+       if (sim->hitGround(i)) {
+           // Print end-of-game message in the middle of the screen
+           gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0 + (20.0 * i)));
+
+           // If the Lander has safely landed,
+           if (sim->safelyLanded(i)) {
+               gout << "The Eagle has landed!";
+           }
+           // The Lander is not travelling at a safe velocity or is not on the platform,
+           else {
+               gout << "Houston, we have a problem!";
+           }
        }
    }
-   
    // DRAWING //
 
    // draw our little stars (randomly around the window, but behind the ground)
@@ -63,27 +64,31 @@ void callBack(const Interface *pUI, void * p)
    // draw the ground
    sim->drawGround(gout);
 
-   // Draw the lander and its flames
-   gout.drawLander(*(sim->getLMPos()) /*position*/, sim->getLMAngle()->getRadians() /*angle*/);
-   gout.drawLanderFlames(*(sim->getLMPos()), sim->getLMAngle()->getRadians(), /*angle*/
-                    sim->getLMThrust(), sim->getLMRotateLeft(), sim->getLMRotateRight());
+   // Draw the landers and its flames
+   for (int i = 0; i < 2; i++) {
+       gout.drawLander(*(sim->getLMPos(i)) /*position*/, sim->getLMAngle(i)->getRadians() /*angle*/);
+       gout.drawLanderFlames(*(sim->getLMPos(i)), sim->getLMAngle(i)->getRadians(), /*angle*/
+           sim->getLMThrust(i), sim->getLMRotateLeft(i), sim->getLMRotateRight(i));
+   }
+
+   // Currenlty prints only the first Lander's stats
 
    // Print messages to the screen
    // Printing near the top left of the screen,
    gout.setPosition(Point(10.0, sim->getUpperRight()->getY() - 20.0));
 
    // Show the Lunar Modules Fuel level
-   gout << "Fuel: " << sim->getLMFuel() << " lbs\n";
+   gout << "Fuel: " << sim->getLMFuel(0) << " lbs\n";
    
    // Displays the altitute as 0 or the actual altitude (prevents negative altitude from showing)
    gout.setf(ios::fixed);
    gout.precision(0);
-   gout << "Altitude: " << max(0.0, sim->getLMAltitude()) << " meters\n";
+   gout << "Altitude: " << max(0.0, sim->getLMAltitude(0)) << " meters\n";
    
    // Show the speed with 2 decimal points
    gout.setf(ios::fixed | ios::showpoint);
    gout.precision(2);
-   gout << "Speed: " << sim->getLMVel() << "m/s\n";
+   gout << "Speed: " << sim->getLMVel(0) << "m/s\n";
 }
 
 /*********************************

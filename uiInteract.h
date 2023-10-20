@@ -68,7 +68,13 @@ public:
    int  isUp()        const { return isUpPress;    };
    int  isLeft()      const { return isLeftPress;  };
    int  isRight()     const { return isRightPress; };
+   
+   int isW() const { return isWPress; };
+   int isA() const { return isAPress; };
+   int isD() const { return isDPress; };
+   
    bool isSpace()     const { return isSpacePress; };
+
    
    static void *p;                   // for client
    static void (*callBack)(const Interface *, void *);
@@ -85,6 +91,11 @@ private:
    static int  isLeftPress;          //    "   left       "
    static int  isRightPress;         //    "   right      "
    static bool isSpacePress;         //    "   space      "
+   
+   // Second Player - WASD
+   static int isWPress;
+   static int isAPress;
+   static int isDPress;
 };
 
 

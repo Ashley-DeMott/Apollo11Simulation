@@ -182,6 +182,16 @@ void Interface::keyEvent(int key, bool fDown)
       case GLUT_KEY_LEFT:
          isLeftPress = fDown;
          break;
+         // Second Player
+      /*case GLUT_KEY_W:
+          isWPress = fDown;
+          break;
+      case GLUT_KEY_A:
+          isAPress = fDown;
+          break;
+      case GLUT_KEY_D:
+          isDPress = fDown;
+          break;*/
       case GLUT_KEY_HOME:
       case ' ':
          isSpacePress = fDown;

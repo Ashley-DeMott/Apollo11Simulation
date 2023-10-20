@@ -64,7 +64,7 @@ public:
     // If the Lander is turning right
     bool getRotateRight() { return rotateRight; }
 
-private:
+protected:
     Point pos;      // The position of the Lander (x and y)
     Point v;        // The total velocity of the Lander
     Point a;        // The total acceleration of the Lander
@@ -84,7 +84,7 @@ private:
     bool rotateLeft;
 
     // Get movement input from the user
-    void getUserInput(const Interface* pUI);
+    virtual void getUserInput(const Interface* pUI);
 
     // Add accelertation from thrust to the Lander
     void addThrust();
@@ -210,4 +210,11 @@ private:
     double computeTotalComponent(double x, double y) {
         return sqrt((x * x) + (y * y));
     }
+};
+
+class LanderWASD : Lander {
+    // Constructor
+    LanderWASD(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH), landed(false), rotateRight(false), rotateLeft(false) {}
+
+    void getUserInput(const Interface* pUI);
 };

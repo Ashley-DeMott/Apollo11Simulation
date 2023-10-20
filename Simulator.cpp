@@ -1,15 +1,15 @@
 #include "Simulator.h"
 
-const bool Simulator::safelyLanded() {
+const bool Simulator::safelyLanded(int index) {
     bool safelyLanded = false;
 
     // If the Lander has hit the ground,
-    if (hitGround()) {
+    if (hitGround(index)) {
         // The Lander must be travelling at a safe speed AND be on the platform
-        safelyLanded = (lm.getVel() < SAFE_LANDING_VEL) && ground.onPlatform(*(lm.getPos()), lm.getWidth());
+        safelyLanded = (landers[index]->getVel() < SAFE_LANDING_VEL) && ground.onPlatform(*(landers[index]->getPos()), landers[index]->getWidth());
 
         // The LM has landed
-        lm.land(safelyLanded);
+        landers[index]->land(safelyLanded);
     }
     else {
         // Cannot determine if the lm has landed safely if not on the ground

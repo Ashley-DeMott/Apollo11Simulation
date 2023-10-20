@@ -23,7 +23,7 @@ class Simulator
 public:
     // Constructor to initialize the different parts of the simulator with the upper 
     // right point and to create a list of stars.
-   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)) {
+   Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight) {
       createStars(); // Create all the Stars to be displayed
    }
 
@@ -31,31 +31,35 @@ public:
    Point* getUpperRight() { return &ptUpperRight; }
 
    // Update the LM's position with the given user interface and time interval
-   void updateLM(const Interface* pUI) { lm.update(pUI, TIME_INTERVAL); }
+   void updateLM(const Interface* pUI) {
+       for (int i = 0; i < sizeof(landers); i++) {
+           landers[i]->update(pUI, TIME_INTERVAL);
+       }
+   }
 
    // Get the position of the Lunar Module
-   Point* getLMPos() { return lm.getPos(); }
+   Point* getLMPos(int index) { return landers[index]->getPos(); }
 
    // Get the velocity of the Lunar Module
-   double getLMVel() { return lm.getVel(); }
+   double getLMVel(int index) { return landers[index]->getVel(); }
 
    // Get the angle of the Lunar Module
-   Angle* getLMAngle() { return lm.getAngle(); }
+   Angle* getLMAngle(int index) { return landers[index]->getAngle(); }
 
    // Get the fuel level of the Lunar Module
-   int getLMFuel() { return lm.getFuel(); }
+   int getLMFuel(int index) { return landers[index]->getFuel(); }
 
    // Get the altitude of the Lunar Module above the ground
-   double getLMAltitude() { return ground.getElevation(*(lm.getPos())); }
+   double getLMAltitude(int index) { return ground.getElevation(*(landers[index]->getPos())); }
 
    // Get if the LM thruster is on
-   bool getLMThrust() { return lm.getThrust(); }
+   bool getLMThrust(int index) { return landers[index]->getThrust(); }
 
    // Get if the LM is rotating left
-   bool getLMRotateLeft() { return lm.getRotateLeft(); }
+   bool getLMRotateLeft(int index) { return landers[index]->getRotateLeft(); }
 
    // Get if the LM is rotating right
-   bool getLMRotateRight() { return lm.getRotateRight(); }
+   bool getLMRotateRight(int index) { return landers[index]->getRotateRight(); }
 
    // Get the list of stars
    list<Star*>* getStars() { return &stars; }
@@ -64,14 +68,14 @@ public:
    const void drawGround(ogstream &out) { ground.draw(out); }
 
    // Returns if the Lander has hit the ground (or is below the ground)
-   const bool hitGround() { return 0 > ground.getElevation(*(lm.getPos())); }
+   const bool hitGround(int index) { return 0 > ground.getElevation(*(landers[index]->getPos())); }
 
    // Checks if the Lander has landed safely on the platform
-   const bool safelyLanded();
+   const bool safelyLanded(int index);
 
 private:
    Point ptUpperRight;     // The upper right corner of the screen
-   Lander lm;              // The Lunar Module
+   Lander* landers[2] = {new Lander(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)), new Lander(Point((ptUpperRight.getX()) - 100.0, ptUpperRight.getY() - 20.0))}; // The Landers
    list<Star*> stars;      // A list for all the Star pointers
    Ground ground;          // The ground
 
