@@ -1,7 +1,4 @@
 #pragma once
-#define _USE_MATH_DEFINES
-#include <math.h>
-#include "point.h"
 #include "angle.h"
 #include "uiInteract.h"
 
@@ -213,8 +210,10 @@ protected:
 };
 
 class LanderWASD : Lander {
+public:
     // Constructor
-    LanderWASD(Point p = Point(0.0, 0.0)) : pos(p.getX(), p.getY()), angle(0.0), v(Point(0.0, 0.0)), a(Point(0.0, 0.0)), fuel(STARTING_FUEL), thrust(false), width(WIDTH), landed(false), rotateRight(false), rotateLeft(false) {}
+    LanderWASD(Point p = Point(0.0, 0.0)) : Lander(p) {}
 
+private:
     void getUserInput(const Interface* pUI);
 };

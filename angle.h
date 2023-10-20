@@ -2,6 +2,7 @@
 
 #define TWO_PI 6.28318530718
 
+#define _USE_MATH_DEFINES
 #include <math.h>    // for floor()
 #include <iostream>  // for cout
 #include <cassert>   // for assert()

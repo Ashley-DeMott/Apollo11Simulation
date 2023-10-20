@@ -8,7 +8,7 @@ void Lander::update(const Interface* pUI, double t) {
         a.setY(computeVerticalComponent(0, GRAVITY));
 
         // Get user input, sets which thrusters are on
-        getUserInput(pUI);
+        this->getUserInput(pUI);
 
         // Add thrust, turn left and right
         if (rotateRight) {
@@ -30,9 +30,6 @@ void Lander::update(const Interface* pUI, double t) {
         pos.setY(computeDistance(pos.getY(), v.getY(), a.getY(), t));
     }
 }
-
-
-
 
 void Lander::land(bool safelyLanded) {
     // The Lander has landed, no more flying

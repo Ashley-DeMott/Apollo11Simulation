@@ -16,6 +16,11 @@
 #include <time.h>     // for clock
 #include <cstdlib>    // for rand()
 
+// Player 2 Controls - 1, 2, 3
+// Error: Doesn't have a key-up event?
+#define GLUT_KEY_A 49
+#define GLUT_KEY_W 50
+#define GLUT_KEY_D 51
 
 #ifdef __APPLE__
 #define GL_SILENCE_DEPRECATION
@@ -43,7 +48,6 @@
 #include "point.h"
 
 using namespace std;
-
 
 /*********************************************************************
  * SLEEP
@@ -168,6 +172,7 @@ void closeCallback()
  ****************************************************************/
 void Interface::keyEvent(int key, bool fDown)
 {
+    cout << key << endl;
    switch(key)
    {
       case GLUT_KEY_DOWN:
@@ -182,8 +187,8 @@ void Interface::keyEvent(int key, bool fDown)
       case GLUT_KEY_LEFT:
          isLeftPress = fDown;
          break;
-         // Second Player
-      /*case GLUT_KEY_W:
+      // Second Player controls
+      case GLUT_KEY_W:
           isWPress = fDown;
           break;
       case GLUT_KEY_A:
@@ -191,7 +196,7 @@ void Interface::keyEvent(int key, bool fDown)
           break;
       case GLUT_KEY_D:
           isDPress = fDown;
-          break;*/
+          break;
       case GLUT_KEY_HOME:
       case ' ':
          isSpacePress = fDown;
@@ -215,6 +220,12 @@ void Interface::keyEvent()
       isLeftPress++;
    if (isRightPress)
       isRightPress++;
+   if (isWPress)
+       isWPress++;
+   if (isAPress)
+       isAPress++;
+   if (isDPress)
+       isDPress++;
    isSpacePress = false;
 }
 
@@ -259,6 +270,12 @@ int          Interface::isDownPress  = 0;
 int          Interface::isUpPress    = 0;
 int          Interface::isLeftPress  = 0;
 int          Interface::isRightPress = 0;
+
+// Second Player - WASD
+int Interface::isWPress = 0;
+int Interface::isAPress = 0;
+int Interface::isDPress = 0;
+
 bool         Interface::isSpacePress = false;
 bool         Interface::initialized  = false;
 double       Interface::timePeriod   = 1.0 / 30; // default to 30 frames/second

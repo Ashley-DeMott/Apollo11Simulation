@@ -38,7 +38,7 @@ void callBack(const Interface *pUI, void * p)
    // Update the Lunar Lander (will do nothing if the Lunar has hit the ground)
    sim->updateLM(pUI);
 
-   for (int i = 0; i < 2; i++) {
+   for (int i = 0; i < sim->getNumLanders(); i++) {
        // If the Lander has hit the ground,
        if (sim->hitGround(i)) {
            // Print end-of-game message in the middle of the screen
@@ -65,7 +65,7 @@ void callBack(const Interface *pUI, void * p)
    sim->drawGround(gout);
 
    // Draw the landers and its flames
-   for (int i = 0; i < 2; i++) {
+   for (int i = 0; i < sim->getNumLanders(); i++) {
        gout.drawLander(*(sim->getLMPos(i)) /*position*/, sim->getLMAngle(i)->getRadians() /*angle*/);
        gout.drawLanderFlames(*(sim->getLMPos(i)), sim->getLMAngle(i)->getRadians(), /*angle*/
            sim->getLMThrust(i), sim->getLMRotateLeft(i), sim->getLMRotateRight(i));

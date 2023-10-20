@@ -92,13 +92,11 @@ private:
    static int  isRightPress;         //    "   right      "
    static bool isSpacePress;         //    "   space      "
    
-   // Second Player - WASD
+   // Second Player - WASD (temp false const)
    static int isWPress;
    static int isAPress;
    static int isDPress;
 };
-
-
 
 /************************************************************************
  * DRAW CALLBACK
