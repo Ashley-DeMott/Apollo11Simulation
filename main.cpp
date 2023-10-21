@@ -42,7 +42,7 @@ void callBack(const Interface *pUI, void * p)
        // If the Lander has hit the ground,
        if (sim->hitGround(i)) {
            // Print end-of-game message in the middle of the screen
-           gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 125.0 + (20.0 * i)));
+           gout.setPosition(Point(sim->getUpperRight()->getX() - 250.0, sim->getUpperRight()->getY() - 200.0 + (20.0 * i)));
 
            // If the Lander has safely landed,
            if (sim->safelyLanded(i)) {

@@ -8,8 +8,6 @@
  ************************************************************************/
 
 #include "ground.h"   // for the Ground class definition
-#include "uiDraw.h"   // for random() and drawLine()
-#include <cassert>
 
 const int    LZ_SIZE = 30;
 const double MAX_SLOPE = 2.7; // steapness of the features. Smaller number is flatter
