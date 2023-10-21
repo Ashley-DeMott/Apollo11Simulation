@@ -17,7 +17,8 @@
 #include <cstdlib>    // for rand()
 
 // Player 2 Controls - 1, 2, 3
-// Error: Doesn't have a key-up event?
+// ERROR: Doesn't have a key-up event?
+// ERROR: Repeated values
 #define GLUT_KEY_A 49
 #define GLUT_KEY_W 50
 #define GLUT_KEY_D 51

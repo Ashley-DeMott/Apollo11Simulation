@@ -38,6 +38,7 @@ public:
        }
    }
 
+   // Get the number of Landers in the Simulation
    int getNumLanders() { return NUM_LANDERS; }
 
    // Get the position of the Lunar Module
@@ -78,19 +79,19 @@ public:
 
 private:
    Point ptUpperRight;     // The upper right corner of the screen
+
+   // All the Landers
    Lander* landers[NUM_LANDERS] = {new Lander(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)),
                                     new Lander(Point((ptUpperRight.getX()) - 50.0, ptUpperRight.getY() - 20.0)), 
                                     new Lander(Point((ptUpperRight.getX()) - 150.0, ptUpperRight.getY() - 20.0)), 
                                     new Lander(Point((ptUpperRight.getX()) - 200.0, ptUpperRight.getY() - 20.0)), 
                                     new Lander(Point((ptUpperRight.getX()) - 250.0, ptUpperRight.getY() - 20.0)), 
-                                    (Lander*) (new LanderWASD(Point((ptUpperRight.getX()) - 100.0, ptUpperRight.getY() - 20.0))),
-                                    (Lander*)(new LanderWASD(Point((ptUpperRight.getX()) - 75.0, ptUpperRight.getY() - 50.0))), 
-                                    (Lander*)(new LanderWASD(Point((ptUpperRight.getX()) - 175.0, ptUpperRight.getY() - 50.0))), 
-                                    (Lander*)(new LanderWASD(Point((ptUpperRight.getX()) - 175.0, ptUpperRight.getY() - 50.0))), 
-                                    (Lander*)(new LanderWASD(Point((ptUpperRight.getX()) - 275.0, ptUpperRight.getY() - 50.0)))
-   
-   
-   }; // The Landers
+                                    new Lander(Point((ptUpperRight.getX()) - 100.0, ptUpperRight.getY() - 20.0)),
+                                    new Lander(Point((ptUpperRight.getX()) - 75.0, ptUpperRight.getY() - 50.0)), 
+                                    new Lander(Point((ptUpperRight.getX()) - 175.0, ptUpperRight.getY() - 50.0)), 
+                                    new Lander(Point((ptUpperRight.getX()) - 175.0, ptUpperRight.getY() - 50.0)), 
+                                    new Lander(Point((ptUpperRight.getX()) - 275.0, ptUpperRight.getY() - 50.0)) };
+
    list<Star*> stars;      // A list for all the Star pointers
    Ground ground;          // The ground
 
