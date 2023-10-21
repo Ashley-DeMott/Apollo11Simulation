@@ -6,12 +6,10 @@
  * Summary:
  *    Where the ground is located and where the landing pad is located
  ************************************************************************/
-
 #pragma once
 
 #include "point.h"   // for Point
-#include "uiDraw.h"  // for ogstream
-
+#include "uiDraw.h"  // for random() and drawLine()
 
  /***********************************************************
   * GROUND

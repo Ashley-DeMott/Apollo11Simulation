@@ -21,13 +21,12 @@ const int  NUM_STARS = 50;      // The number of Stars to create
 class Simulator
 {
 public:
-    // Constructor to initialize the different parts of the simulator with the upper 
-    // right point and to create a list of stars.
+    // Constructor to initialize the different parts of the simulator
    Simulator(const Point& ptUpperRight) : ptUpperRight(ptUpperRight), ground(ptUpperRight), lm(Point((ptUpperRight.getX()) - 20.0, ptUpperRight.getY() - 20.0)) {
       createStars(); // Create all the Stars to be displayed
    }
 
-   // Get the upper right point of the simulator
+   // Get the upper right point of the simulator (The window's size)
    Point* getUpperRight() { return &ptUpperRight; }
 
    // Update the LM's position with the given user interface and time interval
